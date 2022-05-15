@@ -2,6 +2,7 @@ package com.websocket.chat.controller;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.websocket.chat.dto.ChatRoom;
+import com.websocket.chat.dto.ChatRoomInfor;
 import com.websocket.chat.dto.portfolio;
 import com.websocket.chat.service.ChatService;
 import com.websocket.chat.service.TestService;
@@ -17,6 +18,17 @@ public class ChatController {
 
     private final TestService testService;
     private final ChatService chatService;
+
+    /*
+    채팅방 입장, 대화, 퇴장은 Socket 통신
+    * Request 예시
+        {
+          "type":"ENTER",
+          "roomId":"9e648d2d-5e2e-42b3-82fc-b8bef8111cbe",
+          "sender":"happydaddy",
+          "message":""
+        }
+    */
     
     // 채팅방 생성
     @PostMapping
@@ -26,14 +38,14 @@ public class ChatController {
 
     // 채팅방 목록 확인
     @GetMapping
-    public List<ChatRoom> findAllRoom() {
+    public List<ChatRoomInfor> findAllRoom() {
         return chatService.findAllRoom();
     }
 
     // 특정 채팅방 정보 확인
-    @PostMapping
-    public ChatRoom findRoombyId(@RequestParam String id) {
-        return chatService.findRoomById(id);
+    @PostMapping("/room")
+    public ChatRoomInfor findRoomWithId(@RequestParam String id) {
+        return chatService.findRoomWithId(id);
     }
 
     // 채팅방 참여 정보(chatuser) 테이블 확인

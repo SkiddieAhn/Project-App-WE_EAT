@@ -15,22 +15,24 @@ import java.util.Set;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class ChatRoom {
     private String roomId;
-    private String name;
+    private ChatRoomInfor infor;
     private Set<WebSocketSession> sessions = new HashSet<>();
 
     @Builder
-    public ChatRoom(String roomId, String name){
+    public ChatRoom(String roomId, ChatRoomInfor infor){
         this.roomId = roomId;
-        this.name = name;
+        this.infor=infor;
     }
     public void handleActions(WebSocketSession session, ChatMessage chatMessage, ChatService chatService){
         if(chatMessage.getType().equals(ChatMessage.MessageType.ENTER)){
             sessions.add(session);
-            chatMessage.setMessage(chatMessage.getSender() + "님이 입장했습니다.");
+            infor.setNumber(infor.getNumber()+1);
+            chatMessage.setMessage(chatMessage.getSender() + "님이 입장하셨습니다.");
         }
         else if(chatMessage.getType().equals(ChatMessage.MessageType.OUT)){
             sessions.remove(session);
-            chatMessage.setMessage(chatMessage.getSender() + "님이 나가셨습니다.");
+            infor.setNumber(infor.getNumber()-1);
+            chatMessage.setMessage(chatMessage.getSender() + "님이 퇴장하셨습니다.");
         }
         sendMessage(chatMessage, chatService);
     }
