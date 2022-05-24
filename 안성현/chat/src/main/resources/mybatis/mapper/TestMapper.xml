@@ -5,8 +5,16 @@
 
 <mapper namespace="com.websocket.chat.dao.TestMapper">
 
-    <select id="getAllDataList" resultType="com.websocket.chat.dto.portfolio">
-        SELECT * FROM chatuser;
+    <select id="getAllDataList" resultType="com.websocket.chat.dto.chat">
+        select * from chatuser;
+    </select>
+
+    <insert id="setChatDataList">
+        insert into chat values (#{chat_id},#{chat_name},#{chat_restaurant},#{chat_num},#{chat_file_url},#{chat_create_time});
+    </insert>
+
+    <select id="lastRecord" resultType="com.websocket.chat.dto.chat">
+        select * from chat order by chat_id desc limit 1;
     </select>
 
 </mapper>

@@ -11,7 +11,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-public class portfolio {
+public class chat {
     private String chat_id;
-    private String user_id;
+    private String chat_name;
+    private String chat_restaurant;
+    private int chat_num;
+    private String chat_file_url;
+    private String chat_create_time;
 }
