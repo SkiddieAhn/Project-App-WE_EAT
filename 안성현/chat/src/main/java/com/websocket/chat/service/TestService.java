@@ -10,8 +10,9 @@ import java.util.List;
 
 interface TestServiceIF {
     public List<chat> getAllDataList();
-    public int setChatDataList(String chat_id, String chat_name, String chat_restaurant, int chat_num, String chat_file_url, String chat_create_time);
-    public chat lastRecord();
+    public int getChatMaxId();
+    public void setChatDataList(int chat_id, String chat_name, String chat_restaurant, int chat_num, String chat_file_url, String chat_create_time);
+    public chat getChatData(int chat_id);
 }
 
 @Service
@@ -21,23 +22,33 @@ public class TestService implements TestServiceIF {
     private final TestMapper testMapper;
 
     @Override
+    // 모든 채팅방 목록 확인
     public List<chat> getAllDataList() {
         return testMapper.getAllDataList();
     }
 
     @Override
-    public int setChatDataList(String chat_id, String chat_name, String chat_restaurant, int chat_num, String chat_file_url, String chat_create_time){
+    // 채팅방 ID 중 MAX값 찾기
+    public int getChatMaxId(){
+        // 채팅방 목록이 존재하는 경우
         try{
-            testMapper.setChatDataList(chat_id, chat_name, chat_restaurant, chat_num, chat_file_url, chat_create_time);
-            return 1;
+            int id = testMapper.getChatMaxId();
+            return id;
         }
+        // 채팅방 목록이 존재하지 않는 경우
         catch(Exception e){
             return 0;
         }
     }
 
     @Override
-    public chat lastRecord(){
-        return testMapper.lastRecord();
+    // 채팅방 정보 저장
+    public void setChatDataList(int chat_id, String chat_name, String chat_restaurant, int chat_num, String chat_file_url, String chat_create_time){
+        testMapper.setChatDataList(chat_id, chat_name, chat_restaurant, chat_num, chat_file_url, chat_create_time);
+    }
+
+    // 채팅방 ID로 채팅방 정보 확인
+    public chat getChatData(int chat_id) {
+        return testMapper.getChatData(chat_id);
     }
 }

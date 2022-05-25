@@ -14,12 +14,13 @@ import org.springframework.stereotype.Repository;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public interface TestMapper {
     List<chat> getAllDataList();
-    int setChatDataList(@Param("chat_id") String chat_id,
+    int getChatMaxId();
+    void setChatDataList(@Param("chat_id") int chat_id,
                          @Param("chat_name") String chat_name,
                          @Param("chat_restaurant") String chat_restaurant,
                          @Param("chat_num") int chat_num,
                          @Param("chat_file_url") String chat_file_url,
                          @Param("chat_create_time") String chat_create_time
     );
-    chat lastRecord();
+    chat getChatData(@Param("chat_id") int chat_id);
 }

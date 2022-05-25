@@ -48,30 +48,25 @@ public class ChatController {
         return chatService.findRoomWithId(id);
     }
 
-    // 채팅방 참여 정보(chatuser) 테이블 확인
+    // 채팅방 목록 확인 (DB)
     @GetMapping("/list")
-    public List<chat> test(){
+    public List<chat> list(){
         return testService.getAllDataList();
     }
 
-    // 채팅방 생성
+    // 채팅방 생성 및 저장 (DB)
     @PostMapping("/make")
-    public chat make(@RequestParam String chat_id,
-                           @RequestParam String chat_name,
-                           @RequestParam String chat_restaurant,
-                           @RequestParam int chat_num,
-                           @RequestParam String chat_file_url,
-                           @RequestParam String chat_create_time)
+    public chat make(@RequestParam String chat_name,
+                     @RequestParam String chat_restaurant,
+                     @RequestParam int chat_num,
+                     @RequestParam String chat_file_url,
+                     @RequestParam String chat_create_time)
     {
-        // insert 시도하기
-        int output = testService.setChatDataList(chat_id, chat_name, chat_restaurant, chat_num, chat_file_url, chat_create_time);
-        // insert 성공
-        if(output==1)
-            System.out.println("insert:"+chat_id);
-        // insert 실패
-        else
-            System.out.println("insert fail");
-        // 가장 마지막에 삽입된 레코드 반환
-        return testService.lastRecord();
+        // max 값으로 id 선정
+        int chat_id=testService.getChatMaxId()+1;
+        // insert 시도
+        testService.setChatDataList(chat_id, chat_name, chat_restaurant, chat_num, chat_file_url, chat_create_time);
+        // 삽입한 채팅방 정보 반환
+        return testService.getChatData(chat_id);
     }
 }

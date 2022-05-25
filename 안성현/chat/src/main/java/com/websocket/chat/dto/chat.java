@@ -12,7 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class chat {
-    private String chat_id;
+    private int chat_id;
     private String chat_name;
     private String chat_restaurant;
     private int chat_num;
