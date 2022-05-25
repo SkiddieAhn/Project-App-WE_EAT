@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.websocket.chat.dto.ChatRoom;
 import com.websocket.chat.dto.ChatRoomInfor;
 import com.websocket.chat.dto.chat;
+import com.websocket.chat.dto.kakao;
 import com.websocket.chat.service.ChatService;
+import com.websocket.chat.service.KakaoService;
 import com.websocket.chat.service.TestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +20,7 @@ public class ChatController {
 
     private final TestService testService;
     private final ChatService chatService;
+    private final KakaoService kakaoService;
 
     /*
     채팅방 입장, 대화, 퇴장은 Socket 통신
@@ -68,5 +71,11 @@ public class ChatController {
         testService.setChatDataList(chat_id, chat_name, chat_restaurant, chat_num, chat_file_url, chat_create_time);
         // 삽입한 채팅방 정보 반환
         return testService.getChatData(chat_id);
+    }
+
+    // 음식점 검색
+    @GetMapping("/food")
+    public List<kakao> search(@RequestParam String keyword){
+        return kakaoService.search(keyword);
     }
 }
