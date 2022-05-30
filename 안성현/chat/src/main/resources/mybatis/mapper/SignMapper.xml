@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.websocket.chat.dao.SignMapper">
+    <insert id="signUp">
+        insert into user values (#{user_id},#{pw},#{user_state},#{name},#{user_dept},#{user_sid});
+    </insert>
+
+    <select id="getUser" resultType="com.websocket.chat.dto.user">
+        select * from user where user_id=#{id};
+    </select>
+
+    <select id="getUserInfo" resultType="com.websocket.chat.dto.user_info">
+        select user_id,user_state,user_name,user_dept,user_sid from user where user_id=#{id};
+    </select>
+
+    <update id="setUserState_one">
+        update user set user_state = 1 where user_id=#{id};
+    </update>
+
+    <update id="setUserState_zero">
+        update user set user_state = 0 where user_id=#{id};
+    </update>
+
+</mapper>
