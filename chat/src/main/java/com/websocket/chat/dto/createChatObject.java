@@ -6,19 +6,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-public class ChatMessage {
-    //메세지 타입 : 입장, 채팅, 나가기
-    public enum MessageType {
-        ENTER, TALK, OUT
-    }
-
-    private MessageType type;
-    private int chat_id;
-    private String user_name;
-    private String message;
+public class createChatObject {
+    private String chat_name;
+    private String chat_restaurant;
+    private List<userId> userIdList;
 }

@@ -26,6 +26,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 interface ChatServiceIF {
@@ -78,7 +79,7 @@ public class ChatService implements ChatServiceIF{
     }
 
     //채팅방 파일 생성
-    public void makeFile(int chat_id) {
+    public String makeFile(int chat_id) {
         String fileName = Integer.toString(chat_id) + ".txt";
         try {
             File file = new File(fileName);
@@ -89,6 +90,43 @@ public class ChatService implements ChatServiceIF{
         }catch (Exception e){
             e.printStackTrace();
         }
+        return "src/main/resources/chatfile/"+fileName;
+    }
+
+    // 채팅방 생성 시각 생성
+    public String makeTime(){
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yy.MM.dd");
+        SimpleDateFormat sdf2 = new SimpleDateFormat("HH");
+
+        // 현재 날짜와 시간 기준으로 Date객체 생성
+        Date now= new Date();
+
+        // (연도,월,일) 얻기
+        String nowDate=sdf1.format(now);
+        // 시간 얻기
+        int nowTime=Integer.parseInt(sdf2.format(now));
+
+        // << 후처리 >>
+        // 문자열 변수 선언
+        String nowTimeStr;
+
+        // 0시 (오전 12시)
+        if(nowTime==0)
+            nowTimeStr="12am";
+        // 12시 (오후 12시)
+        else if(nowTime==12)
+            nowTimeStr="12pm";
+        // 오전
+        else if(nowTime<12)
+            nowTimeStr= Integer.toString(nowTime)+"am";
+        // 오후
+        else
+            nowTimeStr= Integer.toString(nowTime%12)+"pm";
+
+        // 최종 문자열
+        String nowDateTime=nowDate+" "+nowTimeStr;
+
+        return nowDateTime;
     }
 
     // 채팅방 정보 저장

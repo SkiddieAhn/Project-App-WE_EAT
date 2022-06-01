@@ -28,7 +28,7 @@ public class WebSockChatHandler extends TextWebSocketHandler {
         log.info("payload {}", payload);
         ChatMessage chatMessage = objectMapper.readValue(payload, ChatMessage.class);
         // 메시지에 적힌 채팅방 아이디 확인
-        int chat_id= Integer.parseInt(chatMessage.getRoomId());
+        int chat_id= chatMessage.getChat_id();
         // 아이디로 채팅방 객체 획득
         ChatRoom room = chatService.findRoomById(chat_id);
         // 채팅 서비스 (입장, 대화, 퇴장)

@@ -29,12 +29,12 @@ public class ChatRoom {
         // 채팅방 입장
         if(chatMessage.getType().equals(ChatMessage.MessageType.ENTER)){
             sessions.add(session);
-            chatMessage.setMessage(chatMessage.getSender() + "님이 입장하셨습니다.");
+            chatMessage.setMessage(chatMessage.getUser_name() + "님이 입장하셨습니다.");
         }
         // 채팅방 퇴장
         else if(chatMessage.getType().equals(ChatMessage.MessageType.OUT)){
             sessions.remove(session);
-            chatMessage.setMessage(chatMessage.getSender() + "님이 퇴장하셨습니다.");
+            chatMessage.setMessage(chatMessage.getUser_name() + "님이 퇴장하셨습니다.");
         }
         // 입장, 퇴장, 대화
         sendMessage(chatMessage, chatService);
