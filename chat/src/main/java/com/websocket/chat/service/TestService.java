@@ -6,6 +6,8 @@ import com.websocket.chat.dto.chat;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.util.List;
 
 interface TestServiceIF {
@@ -13,6 +15,7 @@ interface TestServiceIF {
     public int getChatMaxId();
     public void setChatDataList(int chat_id, String chat_name, String chat_restaurant, int chat_num, String chat_file_url, String chat_create_time);
     public chat getChatData(int chat_id);
+    public void makeFile(int chat_id);
 }
 
 @Service
@@ -51,5 +54,21 @@ public class TestService implements TestServiceIF {
     @Override
     public chat getChatData(int chat_id) {
         return testMapper.getChatData(chat_id);
+    }
+
+
+    //채팅방 파일 생성
+    @Override
+    public void makeFile(int chat_id) {
+        String fileName = Integer.toString(chat_id) + ".txt";
+        try {
+            File file = new File(fileName);
+            FileWriter fw = new FileWriter("src/main/resources/chatfile/" + file, true);
+            fw.write("파일 생성");
+            fw.flush();
+            fw.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

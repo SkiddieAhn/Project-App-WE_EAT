@@ -10,6 +10,8 @@ import com.websocket.chat.service.KakaoService;
 import com.websocket.chat.service.TestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.File;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -67,6 +69,8 @@ public class ChatController {
     {
         // max 값으로 id 선정
         int chat_id=testService.getChatMaxId()+1;
+        //채팅방 파일 생성
+        testService.makeFile(chat_id);
         // insert 시도
         testService.setChatDataList(chat_id, chat_name, chat_restaurant, chat_num, chat_file_url, chat_create_time);
         // 삽입한 채팅방 정보 반환
