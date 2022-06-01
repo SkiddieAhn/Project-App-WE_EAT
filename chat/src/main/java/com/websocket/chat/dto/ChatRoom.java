@@ -14,29 +14,33 @@ import java.util.Set;
 @AllArgsConstructor
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class ChatRoom {
-    private String roomId;
-    private ChatRoomInfor infor;
+    private int roomId;
+    private String name;
     private Set<WebSocketSession> sessions = new HashSet<>();
 
     @Builder
-    public ChatRoom(String roomId, ChatRoomInfor infor){
+    public ChatRoom(int roomId, String name){
         this.roomId = roomId;
-        this.infor=infor;
-    }
-    public void handleActions(WebSocketSession session, ChatMessage chatMessage, ChatService chatService){
-        if(chatMessage.getType().equals(ChatMessage.MessageType.ENTER)){
-            sessions.add(session);
-            infor.setNumber(infor.getNumber()+1);
-            chatMessage.setMessage(chatMessage.getSender() + "님이 입장하셨습니다.");
-        }
-        else if(chatMessage.getType().equals(ChatMessage.MessageType.OUT)){
-            sessions.remove(session);
-            infor.setNumber(infor.getNumber()-1);
-            chatMessage.setMessage(chatMessage.getSender() + "님이 퇴장하셨습니다.");
-        }
-        sendMessage(chatMessage, chatService);
+        this.name=name;
     }
 
+    // 채팅 서비스 
+    public void handleActions(WebSocketSession session, ChatMessage chatMessage, ChatService chatService){
+        // 채팅방 입장
+        if(chatMessage.getType().equals(ChatMessage.MessageType.ENTER)){
+            sessions.add(session);
+            chatMessage.setMessage(chatMessage.getSender() + "님이 입장하셨습니다.");
+        }
+        // 채팅방 퇴장
+        else if(chatMessage.getType().equals(ChatMessage.MessageType.OUT)){
+            sessions.remove(session);
+            chatMessage.setMessage(chatMessage.getSender() + "님이 퇴장하셨습니다.");
+        }
+        // 입장, 퇴장, 대화
+        sendMessage(chatMessage, chatService);
+    }
+    
+    // 메시지 전송
     public <T> void sendMessage(T message, ChatService chatService){
         sessions.parallelStream().forEach(session -> chatService.sendMessage(session,message));
     }

@@ -2,15 +2,11 @@ package com.websocket.chat.service;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.websocket.chat.dao.SignMapper;
-import com.websocket.chat.dao.TestMapper;
-import com.websocket.chat.dto.chat;
 import com.websocket.chat.dto.user;
 import com.websocket.chat.dto.user_info;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
 import java.security.NoSuchAlgorithmException;
 
 class SHA256 {
@@ -40,8 +36,15 @@ interface SignServiceIF {
 @RequiredArgsConstructor
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class SignService implements SignServiceIF{
+    // ==================================================================
+    // * Field << 서버 필드 >>
+    // ==================================================================
     private final SignMapper signMapper;
 
+
+    // ==================================================================
+    // * Method << 회원가입 >>
+    // ==================================================================
     @Override
     public int signUp(String user_id,String user_pw,int user_state,String user_name,String user_sid,String user_dept) throws NoSuchAlgorithmException {
         //SHA256으로 비밀번호 해싱
@@ -60,7 +63,10 @@ public class SignService implements SignServiceIF{
            return 0;
        }
     }
-
+    
+    // ==================================================================
+    // * Method << 로그인 >>
+    // ==================================================================
     @Override
     public user_info signIn(String id, String pw) throws NoSuchAlgorithmException {
         // 변수 선언 및 초기화
@@ -96,7 +102,10 @@ public class SignService implements SignServiceIF{
             return ui;
         }
     }
-
+    
+    // ==================================================================
+    // * Method << 로그아웃 >>
+    // ==================================================================
     @Override
     public void signOut(String id){
         signMapper.setUserState_zero(id);

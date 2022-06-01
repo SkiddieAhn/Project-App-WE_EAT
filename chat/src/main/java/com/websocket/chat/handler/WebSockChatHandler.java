@@ -23,10 +23,15 @@ public class WebSockChatHandler extends TextWebSocketHandler {
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+        // 메시지 내용 가져오기
         String payload = message.getPayload();
         log.info("payload {}", payload);
         ChatMessage chatMessage = objectMapper.readValue(payload, ChatMessage.class);
-        ChatRoom room = chatService.findRoomById(chatMessage.getRoomId());
+        // 메시지에 적힌 채팅방 아이디 확인
+        int chat_id= Integer.parseInt(chatMessage.getRoomId());
+        // 아이디로 채팅방 객체 획득
+        ChatRoom room = chatService.findRoomById(chat_id);
+        // 채팅 서비스 (입장, 대화, 퇴장)
         room.handleActions(session, chatMessage, chatService);
     }
 }

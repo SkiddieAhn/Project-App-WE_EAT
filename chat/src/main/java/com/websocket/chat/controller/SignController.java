@@ -1,9 +1,7 @@
 package com.websocket.chat.controller;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.websocket.chat.dto.ChatRoom;
 import com.websocket.chat.dto.user_info;
-import com.websocket.chat.service.KakaoService;
 import com.websocket.chat.service.SignService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -20,10 +18,10 @@ public class SignController {
     // 회원 가입
     @PostMapping("/up")
     public int signUp(@RequestParam String user_id,
-                               @RequestParam String user_pw,
-                               @RequestParam String user_name,
-                               @RequestParam String user_sid,
-                               @RequestParam String user_dept) throws NoSuchAlgorithmException {
+                      @RequestParam String user_pw,
+                      @RequestParam String user_name,
+                      @RequestParam String user_sid,
+                      @RequestParam String user_dept) throws NoSuchAlgorithmException {
         int user_state = 1;
         // 회원가입 실패 -> 0, 회원가입 성공 -> 1
         return signService.signUp(user_id,user_pw,user_state,user_name,user_sid,user_dept);
