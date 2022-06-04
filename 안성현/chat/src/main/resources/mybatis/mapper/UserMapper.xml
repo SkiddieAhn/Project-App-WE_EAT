@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.websocket.chat.dao.UserMapper">
+    <select id="getProfileData" resultType="com.websocket.chat.dto.user_info">
+        select user_id,user_state,user_name,user_dept,user_sid from user where user_id=#{user_id};
+    </select>
+    <select id="getFriendInfo" resultType="com.websocket.chat.dto.friend_info">
+        select user_id, user_name, user_state from user where user_id=#{friend_id};
+    </select>
+    <insert id="addFriend">
+        insert into friend values (#{friend_id1},#{friend_id2}}),(#{friend_id2},#{friend_id1}});
+    </insert>
+</mapper>

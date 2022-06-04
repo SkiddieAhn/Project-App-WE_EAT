@@ -31,7 +31,7 @@ public class UserController {
     // 친구추가
     @PostMapping("/friend/add")
     public void addFriend(@RequestParam String friend_id1,
-                                @RequestParam String friend_id2) throws NoSuchAlgorithmException{
+                          @RequestParam String friend_id2) throws NoSuchAlgorithmException{
         userService.addFriend(friend_id1,friend_id2);
     }
 
