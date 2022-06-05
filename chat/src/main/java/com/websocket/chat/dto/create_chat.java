@@ -16,5 +16,5 @@ import java.util.List;
 public class create_chat {
     private String chat_name;
     private String chat_restaurant;
-    private List<userId> userIdList;
+    private List<id> user_id;
 }

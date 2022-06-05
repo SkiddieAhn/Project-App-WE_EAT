@@ -30,7 +30,7 @@ interface ChatServiceIF {
     public int getChatMaxId();
     public void setChatData(int chat_id, String chat_name, String chat_restaurant, int chat_num, String chat_create_time);
     public chat getChatData(int chat_id);
-    public void addChatMemberList(int chat_id, List <userId> userIdList);
+    public void addChatMemberList(int chat_id, List <id> userIdList);
     public boolean checkUserIn(int chat_id, String user_id);
     public void addChatMember(int chat_id, String user_id);
     public void addChatMessage(String type, int chat_id, String user_id, String user_name, String message);
@@ -122,9 +122,9 @@ public class ChatService implements ChatServiceIF{
 
     // 채팅방 멤버 정보 저장 
     @Override
-    public void addChatMemberList(int chat_id, List<userId> userIdList) {
+    public void addChatMemberList(int chat_id, List<id> userIdList) {
         for(int i=0; i<userIdList.size(); i++){
-            String user_id=userIdList.get(i).getUser_id();
+            String user_id=userIdList.get(i).getId();
             chatMapper.addChatMember(chat_id, user_id);
         }
     }

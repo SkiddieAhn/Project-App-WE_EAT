@@ -33,10 +33,10 @@ public class ChatController {
         {
             "chat_name":"chatroom",
             "chat_restaurant":"chicken",
-            "userIdList":[
-                {"user_id":"minji"},
-                {"user_id":"chulsu"},
-                {"user_id":"gihyun"}
+            "user_id":[
+                {"id":"user123"},
+                {"id":"user124"},
+                {"id":"user125"}
             ]
         }
     */
@@ -48,7 +48,7 @@ public class ChatController {
         // 요청받은 객체 분리
         String chat_name=obj.getChat_name();
         String chat_restaurant=obj.getChat_restaurant();
-        List<userId> userIdList=obj.getUserIdList();
+        List<id> userIdList=obj.getUser_id();
 
         // (DB) chat table에 저장
 
