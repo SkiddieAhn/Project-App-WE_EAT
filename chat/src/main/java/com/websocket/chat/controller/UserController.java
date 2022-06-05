@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -24,8 +25,8 @@ public class UserController {
 
     // 친구목록확인
     @GetMapping("/friend")
-    public friend_info getFriendInfo(@RequestParam String friend_id) {
-        return userService.getFriendInfo(friend_id);
+    public List<friend_info> getFriendInfo(@RequestParam String user_id) {
+        return userService.getFriendInfo(user_id);
     }
 
     // 친구추가
