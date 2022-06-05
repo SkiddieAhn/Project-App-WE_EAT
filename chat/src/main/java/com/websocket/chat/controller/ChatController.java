@@ -21,6 +21,7 @@ public class ChatController {
         {
           "type":"ENTER",
           "chat_id":1,
+          "user_id":"user123",
           "user_name":"chulsu",
           "message":""
         }
@@ -42,7 +43,7 @@ public class ChatController {
 
     // 채팅방 생성
     @PostMapping("/create")
-    public chat create(@RequestBody createChatObject obj)
+    public chat create(@RequestBody create_chat obj)
     {
         // 요청받은 객체 분리
         String chat_name=obj.getChat_name();
@@ -57,22 +58,18 @@ public class ChatController {
         // 2. chat_num 초기값은 userIdList의 크기
         int chat_num=userIdList.size();
 
-        // 3. 채팅방 파일 생성 및 chat_file_url 설정
-        String filePath = chatService.makeFile(chat_id);
-        String chat_file_url = filePath;
-
-        // 4. chat_create_time 초기값은 현재 시각
+        // 3. chat_create_time 초기값은 현재 시각
         String time=chatService.makeTime();
         String chat_create_time=time;
 
-        // 5. 채팅방 정보 저장
-        chatService.setChatData(chat_id, chat_name, chat_restaurant, chat_num, chat_file_url, chat_create_time);
+        // 4. 채팅방 정보 저장
+        chatService.setChatData(chat_id, chat_name, chat_restaurant, chat_num, chat_create_time);
 
         // (DB) chatuser table에 저장
-        chatService.addUserToChat(chat_id,userIdList);
+        chatService.addChatMemberList(chat_id,userIdList);
 
         // 채팅방 객체 생성
-        chatService.createRoom(chat_id, chat_name);
+        chatService.createRoom(chat_id);
 
         // 삽입한 채팅방 정보 반환
         return chatService.getChatData(chat_id);

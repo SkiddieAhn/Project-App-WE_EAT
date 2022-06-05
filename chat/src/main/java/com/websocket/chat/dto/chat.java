@@ -16,6 +16,5 @@ public class chat {
     private String chat_name;
     private String chat_restaurant;
     private int chat_num;
-    private String chat_file_url;
     private String chat_create_time;
 }

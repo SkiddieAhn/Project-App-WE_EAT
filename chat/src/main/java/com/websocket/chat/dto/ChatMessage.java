@@ -12,13 +12,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class ChatMessage {
-    //메세지 타입 : 입장, 채팅, 나가기
-    public enum MessageType {
-        ENTER, TALK, OUT
-    }
-
-    private MessageType type;
+    private String type;  // 메세지 타입 : 입장, 채팅, 나가기
     private int chat_id;
+    private String user_id;
     private String user_name;
     private String message;
 }

@@ -12,6 +12,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class sign_in {
-    private String id;
-    private String pw;
+    private String user_id;
+    private String user_pw;
 }

@@ -2,13 +2,10 @@ package com.websocket.chat.dao;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.websocket.chat.dto.chat;
-import com.websocket.chat.dto.user;
 import com.websocket.chat.dto.user_info;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 @Mapper
@@ -22,7 +19,7 @@ public interface SignMapper {
                 @Param("user_sid") String user_sid
                 );
 
-    user getUser(@Param("id") String id);
+    String getUserPw(@Param("id") String id);
     user_info getUserInfo(@Param("id") String id);
     void setUserState_one(@Param("id") String id);
     void setUserState_zero(@Param("id") String id);

@@ -10,13 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
-
-import java.io.File;
-import java.io.FileWriter;
 
 import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
@@ -32,9 +28,13 @@ import java.util.*;
 interface ChatServiceIF {
     public List<chat> getAllDataList();
     public int getChatMaxId();
-    public void setChatData(int chat_id, String chat_name, String chat_restaurant, int chat_num, String chat_file_url, String chat_create_time);
+    public void setChatData(int chat_id, String chat_name, String chat_restaurant, int chat_num, String chat_create_time);
     public chat getChatData(int chat_id);
-    public void addUserToChat(int chat_id, List <userId> userIdList);
+    public void addChatMemberList(int chat_id, List <userId> userIdList);
+    public boolean checkUserIn(int chat_id, String user_id);
+    public void addChatMember(int chat_id, String user_id);
+    public void addChatMessage(String type, int chat_id, String user_id, String user_name, String message);
+    public List<ChatMessage> getAllChatMessage(int chat_id);
 }
 
 @Slf4j
@@ -78,21 +78,6 @@ public class ChatService implements ChatServiceIF{
         }
     }
 
-    //채팅방 파일 생성
-    public String makeFile(int chat_id) {
-        String fileName = Integer.toString(chat_id) + ".txt";
-        try {
-            File file = new File(fileName);
-            FileWriter fw = new FileWriter("src/main/resources/chatfile/" + file, true);
-            fw.write("파일 생성");
-            fw.flush();
-            fw.close();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return "src/main/resources/chatfile/"+fileName;
-    }
-
     // 채팅방 생성 시각 생성
     public String makeTime(){
         SimpleDateFormat sdf1 = new SimpleDateFormat("yy.MM.dd");
@@ -131,24 +116,23 @@ public class ChatService implements ChatServiceIF{
 
     // 채팅방 정보 저장
     @Override
-    public void setChatData(int chat_id, String chat_name, String chat_restaurant, int chat_num, String chat_file_url, String chat_create_time){
-        chatMapper.setChatData(chat_id, chat_name, chat_restaurant, chat_num, chat_file_url, chat_create_time);
+    public void setChatData(int chat_id, String chat_name, String chat_restaurant, int chat_num, String chat_create_time){
+        chatMapper.setChatData(chat_id, chat_name, chat_restaurant, chat_num, chat_create_time);
     }
 
     // 채팅방 멤버 정보 저장 
     @Override
-    public void addUserToChat(int chat_id, List<userId> userIdList) {
+    public void addChatMemberList(int chat_id, List<userId> userIdList) {
         for(int i=0; i<userIdList.size(); i++){
             String user_id=userIdList.get(i).getUser_id();
-            chatMapper.addUserToChat(chat_id, user_id);
+            chatMapper.addChatMember(chat_id, user_id);
         }
     }
 
     // 채팅방 객체 생성
-    public ChatRoom createRoom(int chat_id, String chat_name) {
+    public ChatRoom createRoom(int chat_id) {
         ChatRoom chatRoom = ChatRoom.builder()
                 .roomId(chat_id)
-                .name(chat_name)
                 .build();
         ChatRooms.put(chat_id,chatRoom);
         return chatRoom;
@@ -180,7 +164,7 @@ public class ChatService implements ChatServiceIF{
         try{
             // Kakao API - 키워드로 지역 검색
             keyword = URLEncoder.encode("역곡"+keyword, "UTF-8");
-            size=10;
+            size=15;
             GEOCODE_URL=String.format("http://dapi.kakao.com/v2/local/search/keyword.json?query=%s&size=%d",keyword,size);
             System.out.println("검색 URL: "+GEOCODE_URL);
 
@@ -230,6 +214,40 @@ public class ChatService implements ChatServiceIF{
         return list;
     }
 
+    // ==================================================================
+    // * Method << 채팅방 입장, 대화, 퇴장 >>
+    // ==================================================================
+
+    // 채팅방에 해당 유저가 있는지 확인
+    @Override
+    public boolean checkUserIn(int chat_id, String user_id){
+        try{
+            int check = chatMapper.checkUserIn(chat_id,user_id);
+            return true;
+        }
+        catch(Exception e){
+            return false;
+        }
+    }
+
+    // 채팅방에 유저 추가
+    @Override
+    public void addChatMember(int chat_id, String user_id){
+        chatMapper.addChatMember(chat_id, user_id); // 유저 추가
+        chatMapper.PlusChatNum(chat_id); // 인원 수 추가
+    }
+
+    // 모든 채팅방 메시지 반환
+    @Override
+    public List<ChatMessage> getAllChatMessage(int chat_id){
+        return chatMapper.getAllChatMessage(chat_id);
+    }
+
+    // 채팅방에 메시지 추가
+    @Override
+    public void addChatMessage(String type, int chat_id, String user_id, String user_name, String message){
+        chatMapper.addChatMessage(type, chat_id, user_id, user_name, message);
+    }
 
     // ==================================================================
     // * Method << 기타 메소드 >>
@@ -243,7 +261,14 @@ public class ChatService implements ChatServiceIF{
 
     // 특정 채팅방 객체 반환
     public ChatRoom findRoomById(int chat_id){
-        return ChatRooms.get(chat_id);
+        ChatRoom room = ChatRooms.get(chat_id);;
+
+        // 채팅방 객체가 존재하는 경우
+        if(room != null)
+            return room;
+        // 채팅방 객체가 존재하지 않는 경우
+        else
+            return createRoom(chat_id);
     }
 
     // 메시지 전송

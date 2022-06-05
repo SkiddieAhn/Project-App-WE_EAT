@@ -14,15 +14,31 @@
     </select>
 
     <insert id="setChatData">
-        insert into chat values (#{chat_id},#{chat_name},#{chat_restaurant},#{chat_num},#{chat_file_url},#{chat_create_time});
+        insert into chat values (#{chat_id},#{chat_name},#{chat_restaurant},#{chat_num},#{chat_create_time});
     </insert>
 
     <select id="getChatData" resultType="com.websocket.chat.dto.chat">
         select * from chat where chat_id=#{chat_id};
     </select>
 
-    <insert id="addUserToChat">
+    <insert id="addChatMember">
         insert into chatuser values (#{chat_id},#{user_id});
     </insert>
+
+    <select id="checkUserIn" resultType="int">
+        select chat_id from chatuser where chat_id=#{chat_id} and user_id=#{user_id};
+    </select>
+
+    <select id="getAllChatMessage" resultType="com.websocket.chat.dto.ChatMessage">
+        select * from chatmessage where chat_id=#{chat_id};
+    </select>
+
+    <insert id="addChatMessage">
+        insert into chatmessage values(#{type},#{chat_id},#{user_id},#{user_name},#{message});
+    </insert>
+
+    <update id="PlusChatNum">
+        update chat set chat_num=chat_num+1 where chat_id=#{chat_id};
+    </update>
 
 </mapper>

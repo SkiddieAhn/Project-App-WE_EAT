@@ -1,6 +1,8 @@
 package com.websocket.chat.controller;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.websocket.chat.dto.sign_in;
+import com.websocket.chat.dto.sign_up;
 import com.websocket.chat.dto.user_info;
 import com.websocket.chat.service.SignService;
 import lombok.RequiredArgsConstructor;
@@ -14,29 +16,48 @@ import java.security.NoSuchAlgorithmException;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class SignController {
     private final SignService signService;
+    
+    /*
+    회원가입
+    * Request 예시
+        {
+            "user_id":"minji",
+            "user_pw":"minjipw",
+            "user_name":"minji",
+            "user_sid":"202201234",
+            "user_dept":"computer"
+        }
+    */
 
     // 회원 가입
     @PostMapping("/up")
-    public int signUp(@RequestParam String user_id,
-                      @RequestParam String user_pw,
-                      @RequestParam String user_name,
-                      @RequestParam String user_sid,
-                      @RequestParam String user_dept) throws NoSuchAlgorithmException {
+    public user_info signUp(@RequestBody sign_up obj) throws NoSuchAlgorithmException {
+        // 요청받은 객체 분리
+        String user_id=obj.getUser_id();
+        String user_pw=obj.getUser_pw();
+        String user_name=obj.getUser_name();
+        String user_sid=obj.getUser_sid();
+        String user_dept=obj.getUser_dept();
+
+        // user_state 설정
         int user_state = 1;
-        // 회원가입 실패 -> 0, 회원가입 성공 -> 1
+
         return signService.signUp(user_id,user_pw,user_state,user_name,user_sid,user_dept);
     }
 
     // 로그인
     @PostMapping("/in")
-    public user_info signIn(@RequestParam String id,
-                            @RequestParam String pw) throws NoSuchAlgorithmException{
+    public user_info signIn(@RequestBody sign_in obj) throws NoSuchAlgorithmException{
+        // 요청받은 객체 분리
+        String id=obj.getUser_id();
+        String pw=obj.getUser_pw();
+
         return signService.signIn(id,pw);
     }
 
     // 로그아웃
     @GetMapping("/out")
-    public void signOut(@RequestParam String id){
-        signService.signOut(id);
+    public boolean signOut(@RequestParam String id){
+        return signService.signOut(id);
     }
 }

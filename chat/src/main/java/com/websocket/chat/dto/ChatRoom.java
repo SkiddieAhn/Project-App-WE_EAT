@@ -6,6 +6,7 @@ import lombok.*;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -15,28 +16,61 @@ import java.util.Set;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class ChatRoom {
     private int roomId;
-    private String name;
     private Set<WebSocketSession> sessions = new HashSet<>();
 
     @Builder
     public ChatRoom(int roomId, String name){
         this.roomId = roomId;
-        this.name=name;
     }
 
-    // 채팅 서비스 
+    // 채팅 서비스
+
+    /*
+    채팅방 입장, 대화, 퇴장은 Socket 통신
+    * Request 예시
+        {
+          "type":"ENTER",
+          "chat_id":1,
+          "user_id":"user123",
+          "user_name":"chulsu",
+          "message":""
+        }
+    */
+
     public void handleActions(WebSocketSession session, ChatMessage chatMessage, ChatService chatService){
+        // chatMessage 파싱
+        String type= chatMessage.getType();
+        int chat_id = chatMessage.getChat_id();
+        String user_id = chatMessage.getUser_id();
+        String user_name = chatMessage.getUser_name();
+        String message= chatMessage.getMessage();
+
         // 채팅방 입장
-        if(chatMessage.getType().equals(ChatMessage.MessageType.ENTER)){
+        if(type.equals("ENTER")){
+            // 새로 들어가면 chat,chatuser table에 기록
+            boolean status=chatService.checkUserIn(chat_id, user_id);
+            if(!status)
+                chatService.addChatMember(chat_id,user_id);
+
+            // 세션 생성 및 채팅방 메시지 불러오기
             sessions.add(session);
-            chatMessage.setMessage(chatMessage.getUser_name() + "님이 입장하셨습니다.");
+            List<ChatMessage> msgList = chatService.getAllChatMessage(chat_id);
+
+            // 입장한 사용자에게 메시지 보내기
+            for(int i=0; i<msgList.size(); i++){
+                ChatMessage msg= msgList.get(i);
+                chatService.sendMessage(session,msg);
+            }
         }
+        
         // 채팅방 퇴장
-        else if(chatMessage.getType().equals(ChatMessage.MessageType.OUT)){
-            sessions.remove(session);
-            chatMessage.setMessage(chatMessage.getUser_name() + "님이 퇴장하셨습니다.");
+        else if(type.equals("OUT")){
+            // 승민님 part
         }
-        // 입장, 퇴장, 대화
+
+        // DB에 메시지 기록
+        chatService.addChatMessage(type,chat_id,user_id,user_name,message);
+        // 모든 사용자에게 메시지 보내기
         sendMessage(chatMessage, chatService);
     }
     

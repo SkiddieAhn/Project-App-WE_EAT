@@ -8,8 +8,8 @@
         insert into user values (#{user_id},#{user_pw},#{user_state},#{user_name},#{user_dept},#{user_sid});
     </insert>
 
-    <select id="getUser" resultType="com.websocket.chat.dto.user">
-        select * from user where user_id=#{id};
+    <select id="getUserPw" resultType="string">
+        select user_pw from user where user_id=#{id};
     </select>
 
     <select id="getUserInfo" resultType="com.websocket.chat.dto.user_info">
