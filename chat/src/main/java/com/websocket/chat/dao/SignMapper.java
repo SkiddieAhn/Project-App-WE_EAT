@@ -20,6 +20,7 @@ public interface SignMapper {
                 );
 
     String getUserPw(@Param("id") String id);
+    int getUserState(@Param("id") String id);
     user_info getUserInfo(@Param("id") String id);
     void setUserState_one(@Param("id") String id);
     void setUserState_zero(@Param("id") String id);

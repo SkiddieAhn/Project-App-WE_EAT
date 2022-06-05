@@ -28,7 +28,7 @@ class SHA256 {
 interface SignServiceIF {
     public user_info signUp(String user_id,String user_pw,int user_state,String user_name,String user_sid,String user_dept) throws NoSuchAlgorithmException;
     public user_info signIn(String id, String pw) throws NoSuchAlgorithmException;
-    public boolean signOut(String id);
+    public int signOut(String id);
 }
 
 @Service
@@ -112,13 +112,23 @@ public class SignService implements SignServiceIF{
     // * Method << 로그아웃 >>
     // ==================================================================
     @Override
-    public boolean signOut(String id){
+    public int signOut(String id){
         try{
-            signMapper.setUserState_zero(id);
-            return true;
+            // 유저가 DB에 존재하는지 검색
+            int status = signMapper.getUserState(id);
+            // 로그인 상태-> 로그아웃
+            if(status == 1){
+                signMapper.setUserState_zero(id);
+                return 1;
+            }
+            // 로그아웃 상태 -> 변동 없음
+            else{
+                return 0;
+            }
         }
+        // 유저가 존재하지 않음
         catch(Exception e){
-            return false;
+            return 0;
         }
     }
 

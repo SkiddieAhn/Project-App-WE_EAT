@@ -57,7 +57,7 @@ public class SignController {
 
     // 로그아웃
     @GetMapping("/out")
-    public boolean signOut(@RequestParam String id){
+    public int signOut(@RequestParam String id){
         return signService.signOut(id);
     }
 }
