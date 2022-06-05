@@ -15,4 +15,8 @@ import java.util.List;
 public interface UserMapper {
     user_info getProfile(@Param("user_id") String user_id);
     List<friend_info> getFriendInfo(@Param("user_id") String user_id);
+    int addFriend(@Param("user_id") String user_id,
+                  @Param("target_id") String target_id
+    );
+    List<user_info> findFriend(@Param("user_name") String user_name);
 }

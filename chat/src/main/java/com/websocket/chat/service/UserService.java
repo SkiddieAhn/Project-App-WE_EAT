@@ -14,6 +14,8 @@ import java.util.List;
 interface UserServiceIF{
     public user_info getProfile(String user_id);
     public List<friend_info> getFriendInfo(String user_id);
+    public int addFriend(String user_id, String target_id);
+    public List<user_info> findFriend(String user_name);
 }
 @Slf4j
 @RequiredArgsConstructor
@@ -29,5 +31,13 @@ public class UserService implements UserServiceIF{
     @Override
     public List<friend_info> getFriendInfo(String user_id){
         return userMapper.getFriendInfo(user_id);
+    }
+    @Override
+    public int addFriend(String user_id, String target_id){
+        return userMapper.addFriend(user_id,target_id);
+    }
+    @Override
+    public List<user_info> findFriend(String user_name){
+        return userMapper.findFriend(user_name);
     }
 }
