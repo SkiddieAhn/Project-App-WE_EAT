@@ -27,6 +27,7 @@ import java.util.*;
 
 interface ChatServiceIF {
     public List<chat> getAllDataList();
+    public List<chat> getMyChatRoomList(String user_id);
     public int getChatMaxId();
     public void setChatData(int chat_id, String chat_name, String chat_restaurant, int chat_num, String chat_create_time);
     public chat getChatData(int chat_id);
@@ -35,6 +36,7 @@ interface ChatServiceIF {
     public void addChatMember(int chat_id, String user_id);
     public void addChatMessage(String type, int chat_id, String user_id, String user_name, String message);
     public List<ChatMessage> getAllChatMessage(int chat_id);
+
 }
 
 @Slf4j
@@ -144,6 +146,14 @@ public class ChatService implements ChatServiceIF{
     @Override
     public List<chat> getAllDataList() {
         return chatMapper.getAllDataList();
+    }
+
+    // ==================================================================
+    // * Method << 참여중인 채팅방 목록 확인 >>
+    // ==================================================================
+    @Override
+    public List<chat> getMyChatRoomList(String user_id) {
+        return chatMapper.getMyChatRoomList(user_id);
     }
 
     // ==================================================================

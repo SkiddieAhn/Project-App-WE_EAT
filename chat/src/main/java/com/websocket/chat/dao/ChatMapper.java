@@ -14,6 +14,7 @@ import java.util.List;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public interface ChatMapper {
     List<chat> getAllDataList();
+    List<chat> getMyChatRoomList(@Param("user_id") String user_id);
     int getChatMaxId();
     void setChatData(@Param("chat_id") int chat_id,
                      @Param("chat_name") String chat_name,

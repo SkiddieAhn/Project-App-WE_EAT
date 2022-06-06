@@ -81,6 +81,12 @@ public class ChatController {
         return chatService.getAllDataList();
     }
 
+    // 참여중인 채팅방 목록 확인
+    @GetMapping("/searchmychatroom")
+    public List<chat> searchMyChatRoomList(@RequestParam String user_id){
+        return chatService.getMyChatRoomList(user_id);
+    }
+
     // 특정 채팅방 정보 확인
     @GetMapping("/room")
     public chat room(@RequestParam int chat_id){return chatService.getChatData(chat_id);}
@@ -91,5 +97,4 @@ public class ChatController {
         return chatService.search(keyword);
     }
 
-    // 채팅방 내용 불러오기
 }

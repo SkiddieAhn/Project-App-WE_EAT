@@ -8,6 +8,9 @@
     <select id="getAllDataList" resultType="com.websocket.chat.dto.chat">
         select * from chat;
     </select>
+    <select id="getMyChatRoomList" resultType="com.websocket.chat.dto.chat">
+        select * from chat where chat_id in (select chat_id from chatuser where user_id=#{user_id});
+    </select>
 
     <select id="getChatMaxId" resultType="int">
         select max(chat_id) from chat;
