@@ -28,6 +28,10 @@
         insert into chatuser values (#{chat_id},#{user_id});
     </insert>
 
+    <delete id="delChatMember">
+        delete from chatuser where chat_id=#{chat_id} and user_id=#{user_id};
+    </delete>
+
     <select id="checkUserIn" resultType="int">
         select chat_id from chatuser where chat_id=#{chat_id} and user_id=#{user_id};
     </select>
@@ -37,11 +41,22 @@
     </select>
 
     <insert id="addChatMessage">
-        insert into chatmessage values(#{type},#{chat_id},#{user_id},#{user_name},#{message});
+        insert into chatmessage values (#{type},#{chat_id},#{user_id},#{user_name},#{message});
     </insert>
 
     <update id="PlusChatNum">
         update chat set chat_num=chat_num+1 where chat_id=#{chat_id};
     </update>
 
+    <update id="MinusChatNum">
+        update chat set chat_num=chat_num-1 where chat_id=#{chat_id};
+    </update>
+
+    <select id="checkChatNum" resultType="int">
+        select chat_num from chat where chat_id=#{chat_id};
+    </select>
+
+    <delete id="delChatRoom">
+        delete from chat where chat_id=#{chat_id};
+    </delete>
 </mapper>

@@ -25,6 +25,8 @@ public interface ChatMapper {
     chat getChatData(@Param("chat_id") int chat_id);
     void addChatMember(@Param("chat_id") int chat_id,
                        @Param("user_id") String user_id);
+    void delChatMember(@Param("chat_id") int chat_id,
+                       @Param("user_id") String user_id);
     int checkUserIn(@Param("chat_id") int chat_id,
                     @Param("user_id") String user_id);
 
@@ -37,4 +39,7 @@ public interface ChatMapper {
     );
 
     void PlusChatNum(@Param("chat_id") int chat_id);
+    void MinusChatNum(@Param("chat_id") int chat_id);
+    int checkChatNum(@Param("chat_id") int cht_id);
+    void delChatRoom(@Param("chat_id") int chat_id);
 }

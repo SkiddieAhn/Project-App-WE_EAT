@@ -65,7 +65,7 @@ public class ChatRoom {
         
         // 채팅방 퇴장
         else if(type.equals("OUT")){
-            // 승민님 part
+            chatService.delChatMember(chat_id,user_id);
         }
 
         // DB에 메시지 기록

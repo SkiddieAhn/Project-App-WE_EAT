@@ -34,6 +34,7 @@ interface ChatServiceIF {
     public void addChatMemberList(int chat_id, List <id> userIdList);
     public boolean checkUserIn(int chat_id, String user_id);
     public void addChatMember(int chat_id, String user_id);
+    public void delChatMember(int chat_id, String user_id);
     public void addChatMessage(String type, int chat_id, String user_id, String user_name, String message);
     public List<ChatMessage> getAllChatMessage(int chat_id);
 
@@ -245,6 +246,16 @@ public class ChatService implements ChatServiceIF{
     public void addChatMember(int chat_id, String user_id){
         chatMapper.addChatMember(chat_id, user_id); // 유저 추가
         chatMapper.PlusChatNum(chat_id); // 인원 수 추가
+    }
+
+    // 채팅방에 유저 삭제
+    @Override
+    public void delChatMember(int chat_id, String user_id){
+        chatMapper.delChatMember(chat_id, user_id);
+        chatMapper.MinusChatNum(chat_id);
+        if(chatMapper.checkChatNum(chat_id)==0){
+            chatMapper.delChatRoom(chat_id);
+        }
     }
 
     // 모든 채팅방 메시지 반환
