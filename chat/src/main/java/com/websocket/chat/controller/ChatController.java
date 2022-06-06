@@ -68,6 +68,9 @@ public class ChatController {
         // (DB) chatuser table에 저장
         chatService.addChatMemberList(chat_id,userIdList);
 
+        // (DB) chatmessage table에 저장
+        chatService.addChatMemberEnterMessage(chat_id,userIdList);
+
         // 채팅방 객체 생성
         chatService.createRoom(chat_id);
 

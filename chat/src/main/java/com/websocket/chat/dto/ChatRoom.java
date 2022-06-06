@@ -47,11 +47,6 @@ public class ChatRoom {
 
         // 채팅방 입장
         if(type.equals("ENTER")){
-            // 새로 들어가면 chat,chatuser table에 기록
-            boolean status=chatService.checkUserIn(chat_id, user_id);
-            if(!status)
-                chatService.addChatMember(chat_id,user_id);
-
             // 세션 생성 및 채팅방 메시지 불러오기
             sessions.add(session);
             List<ChatMessage> msgList = chatService.getAllChatMessage(chat_id);
@@ -61,11 +56,30 @@ public class ChatRoom {
                 ChatMessage msg= msgList.get(i);
                 chatService.sendMessage(session,msg);
             }
+
+            // 새로 입장 = flase, 기존 입장 = true 
+            boolean status=chatService.checkUserIn(chat_id, user_id);
+            if(!status)
+                chatService.addChatMember(chat_id,user_id);  // chat,chatuser table에 기록
+            else
+                return ; // 입장했다는 메시지를 기록하지 않고 보내지도 않음
         }
         
         // 채팅방 퇴장
         else if(type.equals("OUT")){
-            chatService.delChatMember(chat_id,user_id);
+            // 세션 삭제
+            sessions.remove(session);
+            // 채팅방 삭제 = true, 멤버만 삭제 = false
+            boolean del = chatService.delChatMember(chat_id,user_id);
+            if(del)
+                return ; // 채팅방이 삭제되면 기록과 전송이 불가능함
+        }
+
+        // 뒤로가기
+       else if(type.equals("BACK")){
+            // 세션 삭제
+            sessions.remove(session);
+            return ; // 뒤로 갔다는 메시지를 기록하지 않고 보내지도 않음
         }
 
         // DB에 메시지 기록

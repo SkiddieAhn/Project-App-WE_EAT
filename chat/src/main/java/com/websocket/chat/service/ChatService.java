@@ -3,6 +3,7 @@ package com.websocket.chat.service;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.websocket.chat.dao.ChatMapper;
+import com.websocket.chat.dao.SignMapper;
 import com.websocket.chat.dto.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -34,9 +35,10 @@ interface ChatServiceIF {
     public void addChatMemberList(int chat_id, List <id> userIdList);
     public boolean checkUserIn(int chat_id, String user_id);
     public void addChatMember(int chat_id, String user_id);
-    public void delChatMember(int chat_id, String user_id);
+    public boolean delChatMember(int chat_id, String user_id);
     public void addChatMessage(String type, int chat_id, String user_id, String user_name, String message);
     public List<ChatMessage> getAllChatMessage(int chat_id);
+    public void addChatMemberEnterMessage(int chat_id, List<id> userIdList);
 
 }
 
@@ -60,6 +62,7 @@ public class ChatService implements ChatServiceIF{
     // ==================================================================
     private final ObjectMapper objectMapper;
     private final ChatMapper chatMapper;
+    private final SignMapper signMapper;
     private Map<Integer, ChatRoom> ChatRooms;
 
 
@@ -129,6 +132,20 @@ public class ChatService implements ChatServiceIF{
         for(int i=0; i<userIdList.size(); i++){
             String user_id=userIdList.get(i).getId();
             chatMapper.addChatMember(chat_id, user_id);
+        }
+    }
+
+    // 채팅방에 멤버가 입장했다는 메시지 저장
+    @Override
+    public void addChatMemberEnterMessage(int chat_id, List<id> userIdList){
+        String type="ENTER";
+        String user_id;
+        String user_name;
+        String message="";
+        for(int i=0; i<userIdList.size(); i++){
+            user_id=userIdList.get(i).getId();
+            user_name=signMapper.getUserName(user_id);
+            addChatMessage(type,chat_id,user_id,user_name,message);
         }
     }
 
@@ -250,12 +267,16 @@ public class ChatService implements ChatServiceIF{
 
     // 채팅방에 유저 삭제
     @Override
-    public void delChatMember(int chat_id, String user_id){
+    public boolean delChatMember(int chat_id, String user_id){
         chatMapper.delChatMember(chat_id, user_id);
         chatMapper.MinusChatNum(chat_id);
+        // 채팅방 인원 수가 0이 되서 채팅방 삭제
         if(chatMapper.checkChatNum(chat_id)==0){
-            chatMapper.delChatRoom(chat_id);
+            chatMapper.delChatRoom(chat_id); // 채팅방 레코드 삭제
+            ChatRooms.remove(chat_id); // 채팅방 객체 삭제
+            return true;
         }
+        return false;
     }
 
     // 모든 채팅방 메시지 반환
@@ -288,8 +309,17 @@ public class ChatService implements ChatServiceIF{
         if(room != null)
             return room;
         // 채팅방 객체가 존재하지 않는 경우
-        else
-            return createRoom(chat_id);
+        else{
+            // chat 테이블에 chat_id에 해당하는 채팅방이 있는 경우
+            try{
+                int chat_num=chatMapper.checkChatNum(chat_id);
+                return createRoom(chat_id); // 채팅방 객체 생성 후 반환
+            }
+            // chat 테이블에 chat_id에 해당하는 채팅방이 없는 경우
+            catch(Exception e){
+                return null;
+            }
+        }
     }
 
     // 메시지 전송

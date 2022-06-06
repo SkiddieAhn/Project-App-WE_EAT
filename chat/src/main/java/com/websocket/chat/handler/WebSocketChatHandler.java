@@ -29,10 +29,13 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
         ChatMessage chatMessage = objectMapper.readValue(payload, ChatMessage.class);
         // 메시지에 적힌 채팅방 아이디 확인
         int chat_id= chatMessage.getChat_id();
-        // 아이디로 채팅방 객체 획득 (없으면 새로 만들어서 획득)
+        // 아이디로 채팅방 객체 획득
         ChatRoom room = chatService.findRoomById(chat_id);
-        System.out.println(room);
-        // 채팅 서비스 (입장, 대화, 퇴장)
-        room.handleActions(session, chatMessage, chatService);
+        // 채팅방 존재 -> 채팅 서비스 (입장, 대화, 퇴장)
+        if(room!=null){
+            room.handleActions(session, chatMessage, chatService);
+        }
+        else
+            System.out.println(chatMessage.getUser_name()+"님이 존재하지 않은 채팅방에 접근 중입니다!!");
     }
 }

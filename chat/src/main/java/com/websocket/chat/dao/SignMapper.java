@@ -18,7 +18,7 @@ public interface SignMapper {
                 @Param("user_dept") String user_dept,
                 @Param("user_sid") String user_sid
                 );
-
+    String getUserName(@Param("id") String id);
     String getUserPw(@Param("id") String id);
     int getUserState(@Param("id") String id);
     user_info getUserInfo(@Param("id") String id);
