@@ -90,4 +90,6 @@ public class ChatController {
     public List<kakao> search(@RequestParam String keyword){
         return chatService.search(keyword);
     }
+
+    // 채팅방 내용 불러오기
 }
