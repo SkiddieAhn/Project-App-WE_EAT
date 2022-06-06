@@ -3,6 +3,7 @@ package com.websocket.chat.service;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.websocket.chat.dao.UserMapper;
 import com.websocket.chat.dto.friend_info;
+import com.websocket.chat.dto.isFriendInfo;
 import com.websocket.chat.dto.user_info;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +35,14 @@ public class UserService implements UserServiceIF{
     }
     @Override
     public int addFriend(String user_id, String target_id){
-        return userMapper.addFriend(user_id,target_id);
+        isFriendInfo obj1 = userMapper.isFriend(user_id,target_id);
+        if(obj1 != null){
+            return 0;
+        }
+        else{
+            userMapper.addFriend(user_id,target_id);
+            return 1;
+        }
     }
     @Override
     public List<user_info> findFriend(String user_name){

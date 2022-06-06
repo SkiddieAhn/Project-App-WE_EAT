@@ -16,7 +16,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 @RequiredArgsConstructor
 @Component
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-public class WebSockChatHandler extends TextWebSocketHandler {
+public class WebSocketChatHandler extends TextWebSocketHandler {
 
     private final ObjectMapper objectMapper;
     private final ChatService chatService;

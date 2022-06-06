@@ -1,8 +1,8 @@
 package com.websocket.chat.controller;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.websocket.chat.dto.addFriend;
 import com.websocket.chat.dto.friend_info;
+import com.websocket.chat.dto.isFriendInfo;
 import com.websocket.chat.dto.user_info;
 import com.websocket.chat.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -32,13 +32,11 @@ public class UserController {
 
     // 친구추가
     @PostMapping("/friend/add")
-    public int addFriend(@RequestBody addFriend obj){
-        String user_id = obj.getUser_id();
-        String target_id = obj.getTarget_id();
-
-        //침구추가
-        int isaddFreind = userService.addFriend(user_id,target_id);
-        return isaddFreind;
+    public int addFriend(@RequestBody isFriendInfo isfriendinfo){
+        String user_id = isfriendinfo.getUser_id();
+        String target_id = isfriendinfo.getTarget_id();
+        //친구추가
+        return userService.addFriend(user_id,target_id);
     }
 
     // 친구검색

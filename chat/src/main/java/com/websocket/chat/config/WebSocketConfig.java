@@ -12,7 +12,7 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 @Configuration
 @EnableWebSocket
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-public class WebSockConfig implements WebSocketConfigurer {
+public class WebSocketConfig implements WebSocketConfigurer {
 
     private final WebSocketHandler webSocketHandler;
 
