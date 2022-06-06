@@ -4,13 +4,16 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.websocket.chat.dao.UserMapper">
-    <select id="getProfileData" resultType="com.websocket.chat.dto.user_info">
-        select user_id,user_state,user_name,user_dept,user_sid from user where user_id=#{user_id};
+    <select id="getProfile" resultType="com.websocket.chat.dto.user_info">
+        select user_id, user_state, user_name, user_dept, user_sid from user;
     </select>
     <select id="getFriendInfo" resultType="com.websocket.chat.dto.friend_info">
-        select user_id, user_name, user_state from user where user_id=#{friend_id};
+        select user_id, user_name, user_state from user where user_id in (select friend_id2 from friend where friend_id1=#{user_id});
     </select>
     <insert id="addFriend">
-        insert into friend values (#{friend_id1},#{friend_id2}}),(#{friend_id2},#{friend_id1}});
+        insert into friend values(#{user_id},#{target_id}),(#{target_id},#{user_id});
     </insert>
+    <select id="findFriend" resultType="com.websocket.chat.dto.user_info">
+        select user_id, user_state, user_name, user_dept, user_sid from user where user_name=#{user_name};
+    </select>
 </mapper>
