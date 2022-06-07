@@ -5,7 +5,7 @@
 
 <mapper namespace="com.websocket.chat.dao.UserMapper">
     <select id="getProfile" resultType="com.websocket.chat.dto.user_info">
-        select user_id, user_state, user_name, user_dept, user_sid from user;
+        select user_id, user_state, user_name, user_dept, user_sid from user where user_id=#{user_id};
     </select>
     <select id="getFriendInfo" resultType="com.websocket.chat.dto.friend_info">
         select user_id, user_name, user_state from user where user_id in (select target_id from friend where user_id=#{user_id});
