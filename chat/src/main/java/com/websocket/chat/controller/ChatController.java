@@ -100,4 +100,7 @@ public class ChatController {
         return chatService.search(keyword);
     }
 
+    // 채팅방 메세지 불러오기
+    @GetMapping("/loaddata")
+    public List<ChatMessage> loaddata(@RequestParam int chat_id) { return chatService.getAllChatMessage(chat_id);}
 }

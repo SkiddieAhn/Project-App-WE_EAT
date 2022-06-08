@@ -49,13 +49,13 @@ public class ChatRoom {
         if(type.equals("ENTER")){
             // 세션 생성 및 채팅방 메시지 불러오기
             sessions.add(session);
-            List<ChatMessage> msgList = chatService.getAllChatMessage(chat_id);
-
-            // 입장한 사용자에게 메시지 보내기
-            for(int i=0; i<msgList.size(); i++){
-                ChatMessage msg= msgList.get(i);
-                chatService.sendMessage(session,msg);
-            }
+//            List<ChatMessage> msgList = chatService.getAllChatMessage(chat_id);
+//
+//            // 입장한 사용자에게 메시지 보내기
+//            for(int i=0; i<msgList.size(); i++){
+//                ChatMessage msg= msgList.get(i);
+//                chatService.sendMessage(session,msg);
+//            }
 
             // 새로 입장 = flase, 기존 입장 = true 
             boolean status=chatService.checkUserIn(chat_id, user_id);

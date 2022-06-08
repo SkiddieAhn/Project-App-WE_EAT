@@ -279,6 +279,7 @@ public class ChatService implements ChatServiceIF{
         return false;
     }
 
+
     // 모든 채팅방 메시지 반환
     @Override
     public List<ChatMessage> getAllChatMessage(int chat_id){
