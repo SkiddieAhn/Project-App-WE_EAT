@@ -25,7 +25,6 @@
 ## 🛠 Tech Stack
 ### 1. Back-End
 <strong>프레임워크:</strong> Spring<br>
-<strong>개발 언어:</strong> Java<br>
 <strong>데이터베이스:</strong> MySQL<br>
 <strong>채팅 구현:</strong> Spring WebSocket Chatting [[View](https://daddyprogrammer.org/post/4077/spring-websocket-chatting/)]<br>
 <strong>음식점 검색 API:</strong> (kakao developers) 키워드로 장소 검색하기 [[View](https://developers.kakao.com/docs/latest/ko/local/dev-guide#search-by-keyword)]<br>
