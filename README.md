@@ -23,6 +23,17 @@
 |  |
 
 ## 🛠 Tech Stack
+### 1. Back-End
+<strong>프레임워크:</strong> Spring<br>
+<strong>개발 언어:</strong> Java<br>
+<strong>데이터베이스:</strong> MySQL<br>
+<strong>채팅 구현:</strong> Spring WebSocket Chatting [[View](https://daddyprogrammer.org/post/4077/spring-websocket-chatting/)]<br>
+<strong>음식점 검색 API:</strong> (kakao developers) 키워드로 장소 검색하기 [[View](https://daddyprogrammer.org/post/4077/spring-websocket-chatting/)]<br>
+
+### 2. Front-End
+<strong>프레임워크:</strong> Flutter<br>
+<strong>개발 언어:</strong> Dart<br>
+<strong>WebSocket 레퍼런스:</strong> Flutter 공식 문서 [[View](https://flutter-ko.dev/docs/cookbook/networking/web-sockets)]<br>
 
 ## 👨‍👨‍👦Team Member
 | <a href="https://github.com/esm712">이승민 (팀장)</a> | <a href="https://github.com/SkiddieAhn">안성현</a> | <a href="https://github.com/hanmango-o">한영찬</a> | <a href="https://github.com/caindy-p">박도윤</a>| <a href="https://github.com/hjy118">황주연</a>
