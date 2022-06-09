@@ -3,7 +3,7 @@
 
 ## 💡 Description
 <img src="https://user-images.githubusercontent.com/52392658/172747127-271b6e74-77ac-49b6-a56a-ffe83cbc2f60.gif" width="230" height="200">
-가톨릭대학교 밥 약속 채팅 어플리케이션
+가톨릭대학교 학우들끼리 밥 약속을 할 수 있는 채팅 어플리케이션입니다.
 
 ## ⚙ Main Function
 **학교 주변 음식점을 선택하여 채팅방 생성**
