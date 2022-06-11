@@ -1,0 +1,17 @@
+use we_eat;
+delete from chat;
+delete from user;
+delete from friend;
+insert into user values("user0283","8d969eef6ecad3c29a3a629280e68",1,"이승민","정보통신전자공학부","201621053");
+insert into user values("qwer1234","96cae35ce8a9b0244178bf28e4966",1,"박도윤","컴퓨터정보공학부","201720490");
+insert into user values("sssm4444","c59b9fb723a48c48c6b2ee2f63a9d",1,"황주연","컴퓨터정보공학부","202021248");
+insert into user values("juyeon118","c59b9fb723a48c48c6b2ee2f63a9d",0,"황주연","정보통신전자공학부","200411818");
+insert into chat values(1,"초밥 드실 분","샾스시마리오",1,"22.06.11 6pm");
+insert into chat values(2,"감자탕 먹을 분","조마루 역곡점",1,"22.06.11 7pm");
+insert into chat values(3,"저녁먹을 사람?","할머니떡볶이",1,"22.06.11 7pm");
+insert into chatuser values(1,"user0283");
+insert into chatuser values(2,"qwer1234");
+insert into chatuser values(3,"sssm4444");
+insert into chatmessage values("ENTER",1,"user0283","이승민","");
+insert into chatmessage values("ENTER",2,"qwer1234","박도윤","");
+insert into chatmessage values("ENTER",3,"sssm4444","황주연","");
