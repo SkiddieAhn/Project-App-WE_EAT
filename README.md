@@ -30,6 +30,9 @@
 <strong>개발 언어:</strong> Dart<br>
 <strong>WebSocket 레퍼런스:</strong> Flutter 공식 문서 [[View](https://flutter-ko.dev/docs/cookbook/networking/web-sockets)]<br>
 
+## 📖 UML
+![uml_we_eat](https://user-images.githubusercontent.com/52392658/173194209-0926b031-1def-4776-b0c4-2a42fc92ec85.png)
+
 ## 👨‍👨‍👦Team Member
 | <a href="https://github.com/esm712">이승민 (팀장)</a> | <a href="https://github.com/SkiddieAhn">안성현</a> | <a href="https://github.com/hanmango-o">한영찬</a> | <a href="https://github.com/caindy-p">박도윤</a>| <a href="https://github.com/hjy118">황주연</a>
 | :----------: | :----------: | :----------: | :----------: | :----------: | 
