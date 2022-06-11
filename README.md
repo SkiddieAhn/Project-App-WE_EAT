@@ -19,6 +19,7 @@
 ![채팅방참여리사이즈](https://user-images.githubusercontent.com/52392658/173193569-841cb2c6-34db-4733-8c3f-96bbca6af850.gif)
 
 ## 🛠 Tech Stack
+![stack](https://user-images.githubusercontent.com/52392658/173198826-5308f070-f3cc-4d85-a140-4fb8bf338c3b.png)
 ### 1. Back-End
 <strong>프레임워크:</strong> Spring<br>
 <strong>데이터베이스:</strong> MySQL<br>
