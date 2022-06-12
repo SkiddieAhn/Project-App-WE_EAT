@@ -12,6 +12,10 @@ insert into chat values(3,"저녁먹을 사람?","할머니떡볶이",1,"22.06.1
 insert into chatuser values(1,"user0283");
 insert into chatuser values(2,"qwer1234");
 insert into chatuser values(3,"sssm4444");
+insert into chatuser values(3,"user0283");
+insert into chatuser values(3,"qwer1234");
 insert into chatmessage values("ENTER",1,"user0283","이승민","");
 insert into chatmessage values("ENTER",2,"qwer1234","박도윤","");
 insert into chatmessage values("ENTER",3,"sssm4444","황주연","");
+insert into chatmessage values("ENTER",3,"user0283","이승민","");
+insert into chatmessage values("ENTER",3,"qwer1234","박도윤","");
